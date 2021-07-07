@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[3]:
+# In[1]:
 
 
 import cv2
@@ -10,14 +10,14 @@ import os.path
 #function for making frames
 
 def frames():
-    cap = cv2.VideoCapture('/Users/farzeent.farooqui/Downloads/9convert.com - Color Changing Screen 1 Minute  Mood Led Lights Fast.mp4')
+    cap = cv2.VideoCapture('/Users/farzeent.farooqui/RGB_Analysis/Data/9convert.com - Color Changing Screen 1 Minute  Mood Led Lights Fast.mp4')
     count = 0
 
     while cap.isOpened():
         ret, frame = cap.read()
     
         if ret:
-            save_path = '/Users/farzeent.farooqui/Frames'
+            save_path = '/Users/farzeent.farooqui/RGB_Analysis/Data'
             name_of_file = 'frame{:d}.jpg'.format(count)
             completeName = os.path.join(save_path, name_of_file)
             cv2.imwrite(completeName, frame)
@@ -38,7 +38,7 @@ import os
 from natsort import natsorted
 # function for finding RGB
 def test():
-    path_of_images = "/Users/farzeent.farooqui/Frames"
+    path_of_images = "/Users/farzeent.farooqui/RGB_Analysis/Data"
     list_of_images = os.listdir(path_of_images)
     result = []
     for image in natsorted(list_of_images):
@@ -58,7 +58,7 @@ test()
 l = [test() for i in range(1)]
 
 
-# In[4]:
+# In[6]:
 
 
 import numpy as np
@@ -73,12 +73,13 @@ RED=new_R().flatten()
 
 def graph_R():
     df = px.data.tips()
-    fig = px.bar(y=RED,title="Red Color Values")
-    fig.update_xaxes(title_text='Time(s)')
-    fig.update_yaxes(title_text='Value R')
-    fig.update_traces(marker_color='rgb(255,0,0)', marker_line_color='rgb(8,48,107)',
+    fig1 = px.bar(y=RED,title="Red Color Values")
+    fig1.update_xaxes(title_text='Time(s)')
+    fig1.update_yaxes(title_text='Value R')
+    fig1.update_traces(marker_color='rgb(255,0,0)', marker_line_color='rgb(8,48,107)',
                   marker_line_width=1.5, opacity=1)
-    fig.show()
+    fig1.show()
+    fig1.write_image("Output/fig1.png")
 graph_R()
 
 def new_G():
@@ -89,12 +90,13 @@ new_G()
 GREEN=new_G().flatten()
 
 def graph_G():
-    fig = px.bar(y=(GREEN),title="Green Color Values")
-    fig.update_xaxes(title_text='Time(s)')
-    fig.update_yaxes(title_text='Value R')
-    fig.update_traces(marker_color='rgb(0, 255, 0)', marker_line_color='rgb(8,48,107)',
+    fig2 = px.bar(y=(GREEN),title="Green Color Values")
+    fig2.update_xaxes(title_text='Time(s)')
+    fig2.update_yaxes(title_text='Value R')
+    fig2.update_traces(marker_color='rgb(0, 255, 0)', marker_line_color='rgb(8,48,107)',
                   marker_line_width=1.5, opacity=1)
-    fig.show()
+    fig2.show()
+    fig2.write_image("Output/fig2.png")
 graph_G()
 
 def new_B():
@@ -105,19 +107,38 @@ new_B()
 BLUE=new_B().flatten()
 
 def graph_B():
-    fig = px.bar(y=(BLUE),title="Blue Color Values")
-    fig.update_xaxes(title_text='Time(s)')
-    fig.update_yaxes(title_text='Value R')
-    fig.update_traces(marker_color='rgb(0, 0, 255)', marker_line_color='rgb(8,48,107)',
+    fig3 = px.bar(y=(BLUE),title="Blue Color Values")
+    fig3.update_xaxes(title_text='Time(s)')
+    fig3.update_yaxes(title_text='Value R')
+    fig3.update_traces(marker_color='rgb(0, 0, 255)', marker_line_color='rgb(8,48,107)',
                   marker_line_width=1.5, opacity=1)
-    fig.show()
+    fig3.show()
+    fig3.write_image("Output/fig3.png")
 graph_B()
 
 
-# In[1]:
+# In[10]:
 
 
-pip install ipython
+import os.path
+
+save_path = "/Users/farzeent.farooqui/RGB_Analysis/Output"
+
+name_of_file = "sample.txt"
+
+completeName = os.path.join(save_path, name_of_file+".txt") 
+
+file = open(completeName, "w")
+
+str_file = repr(l)
+file.write("a_dictionary = " + str_file + "\n")
+file.close()
+
+
+# In[10]:
+
+
+pip install -U kaleido
 
 
 # In[ ]:
