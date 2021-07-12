@@ -138,8 +138,6 @@ file.close()
 # In[10]:
 
 
-pip install -U kaleido
-
 
 # In[ ]:
 
