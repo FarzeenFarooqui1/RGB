@@ -21,14 +21,14 @@ create_graphs = col3.button('Generate graphs')
 
 
 def frames():
-    cap = cv2.VideoCapture('/Users/farzeent.farooqui/RGB_Analysis/Data/9convert.com - Color Changing Screen 1 Minute  Mood Led Lights Fast.mp4')
+    cap = cv2.VideoCapture('Data/9convert.com - Color Changing Screen 1 Minute  Mood Led Lights Fast.mp4')
     count = 0
 
     while cap.isOpened():
         ret, frame = cap.read()
     
         if ret:
-            save_path = '/Users/farzeent.farooqui/RGB_Analysis/Data'
+            save_path = 'Data'
             name_of_file = 'frame{:d}.jpg'.format(count)
             completeName = os.path.join(save_path, name_of_file)
             cv2.imwrite(completeName, frame)
@@ -41,7 +41,7 @@ if generate_button:
     frames()
 # function for finding RGB
 def test():
-    path_of_images = "/Users/farzeent.farooqui/RGB_Analysis/Data"
+    path_of_images = "Data"
     list_of_images = os.listdir(path_of_images)
     result = []
     for image in natsorted(list_of_images):
@@ -54,7 +54,7 @@ def test():
     return result
 l = [test() for i in range(1)]
 def save():
-    save_path = "/Users/farzeent.farooqui/RGB_Analysis/Output" #path for saving outputed RGB values
+    save_path = "Output" #path for saving outputed RGB values
 
     name_of_file = "RGB" #Name of file
 
