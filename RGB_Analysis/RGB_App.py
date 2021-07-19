@@ -2,7 +2,6 @@ import cv2
 import os.path
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
 import numpy
 import os     
 from natsort import natsorted
