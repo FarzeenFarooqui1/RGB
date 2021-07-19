@@ -10,14 +10,14 @@ import os.path
 #function for making frames
 
 def frames():
-    cap = cv2.VideoCapture('/Users/farzeent.farooqui/RGB_Analysis/Data/9convert.com - Color Changing Screen 1 Minute  Mood Led Lights Fast.mp4')
+    cap = cv2.VideoCapture('Data/9convert.com - Color Changing Screen 1 Minute  Mood Led Lights Fast.mp4')
     count = 0
 
     while cap.isOpened():
         ret, frame = cap.read()
     
         if ret:
-            save_path = '/Users/farzeent.farooqui/RGB_Analysis/Data'
+            save_path = 'Data'
             name_of_file = 'frame{:d}.jpg'.format(count)
             completeName = os.path.join(save_path, name_of_file)
             cv2.imwrite(completeName, frame)
@@ -38,7 +38,7 @@ import os
 from natsort import natsorted
 # function for finding RGB
 def test():
-    path_of_images = "/Users/farzeent.farooqui/RGB_Analysis/Data"
+    path_of_images = "Data"
     list_of_images = os.listdir(path_of_images)
     result = []
     for image in natsorted(list_of_images):
@@ -122,7 +122,7 @@ graph_B()
 
 import os.path
 
-save_path = "/Users/farzeent.farooqui/RGB_Analysis/Output"
+save_path = "Output"
 
 name_of_file = "sample.txt"
 
