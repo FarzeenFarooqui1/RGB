@@ -7,6 +7,9 @@ import os
 from natsort import natsorted
 import numpy as np
 import plotly.express as px
+import os.path
+
+
 
 #function for making frames
 
@@ -20,14 +23,17 @@ create_graphs = col3.button('Generate graphs')
 
 
 def frames():
-    cap = cv2.VideoCapture('Data/9convert.com - Color Changing Screen 1 Minute  Mood Led Lights Fast.mp4')
+    path = "~/RGB_Analysis/Data/9convert.com - Color Changing Screen 1 Minute  Mood Led Lights Fast.mp4"
+    save_path = os.path.expanduser(path)
+    cap = cv2.VideoCapture(save_path)
     count = 0
 
     while cap.isOpened():
         ret, frame = cap.read()
     
         if ret:
-            save_path = 'Data'
+            path = "~/RGB_Analysis/Data"
+            save_path = os.path.expanduser(path)
             name_of_file = 'frame{:d}.jpg'.format(count)
             completeName = os.path.join(save_path, name_of_file)
             cv2.imwrite(completeName, frame)
@@ -40,7 +46,8 @@ if generate_button:
     frames()
 # function for finding RGB
 def test():
-    path_of_images = "Data"
+    path="~/RGB_Analysis/Data"
+    path_of_images = os.path.expanduser(path)
     list_of_images = os.listdir(path_of_images)
     result = []
     for image in natsorted(list_of_images):
@@ -53,7 +60,8 @@ def test():
     return result
 l = [test() for i in range(1)]
 def save():
-    save_path = "Output" #path for saving outputed RGB values
+    path ="~/RGB_Analysis/Output"
+    save_path = os.path.expanduser(path)#path for saving outputed RGB values
 
     name_of_file = "RGB" #Name of file
 
@@ -84,7 +92,9 @@ def graph_R():
     fig1.update_traces(marker_color='rgb(255,0,0)', marker_line_color='rgb(8,48,107)',
                   marker_line_width=1.5, opacity=1)
     fig1.show()
-    fig1.write_image("Output/fig1.png") #saves graph to "Output" folder
+    path="~/RGB_Analysis/Output/fig1.png"
+    path_of_images = os.path.expanduser(path)
+    fig1.write_image(path_of_images) #saves graph to "Output" folder
 
 
 # isolates the second column of the list
@@ -99,7 +109,9 @@ def graph_G():
     fig2.update_traces(marker_color='rgb(0, 255, 0)', marker_line_color='rgb(8,48,107)',
                   marker_line_width=1.5, opacity=1)
     fig2.show()
-    fig2.write_image("Output/fig2.png") #saves graph to "Output" folder
+    path="~/RGB_Analysis/Output/fig2.png"
+    path_of_images = os.path.expanduser(path)
+    fig2.write_image(path_of_images) #saves graph to "Output" folder
 
 # isolates the third column of the list
 def new_B():
@@ -114,7 +126,9 @@ def graph_B():
     fig3.update_traces(marker_color='rgb(0, 0, 255)', marker_line_color='rgb(8,48,107)',
                   marker_line_width=1.5, opacity=1)
     fig3.show()
-    fig3.write_image("Output/fig3.png") #saves graph to "Output" folder
+    path="~/RGB_Analysis/Output/fig3.png"
+    path_of_images = os.path.expanduser(path)
+    fig3.write_image(path_of_images) #saves graph to "Output" folder
 
 
 

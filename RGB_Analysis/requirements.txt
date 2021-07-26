@@ -1,6 +1,0 @@
-opencv_python==4.5.2.52
-natsort==7.1.1
-numpy==1.20.1
-plotly==5.0.0
-pandas==1.2.4
-streamlit==0.84.0
