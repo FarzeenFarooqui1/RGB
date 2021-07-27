@@ -23,19 +23,19 @@ create_graphs = col3.button('Generate graphs')
 
 
 def frames():
-    path = "$HOME/RGB_Analysis/Data/9convert.com - Color Changing Screen 1 Minute  Mood Led Lights Fast.mp4"
-    save_path = os.path.expandvars(path)
-    cap = cv2.VideoCapture(save_path)
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    path = os.path.join(my_path, "../Data/9convert.com - Color Changing Screen 1 Minute  Mood Led Lights Fast.mp4")
+    cap = cv2.VideoCapture(path)
     count = 0
 
     while cap.isOpened():
         ret, frame = cap.read()
     
         if ret:
-            path = "Data"
-            save_path = os.path.expandvars(path)
+            my_path = os.path.abspath(os.path.dirname(__file__))
+            path = os.path.join(my_path, "../Data")
             name_of_file = 'frame{:d}.jpg'.format(count)
-            completeName = os.path.join(save_path, name_of_file)
+            completeName = os.path.join(path, name_of_file)
             cv2.imwrite(completeName, frame)
             count += 5 # i.e. at 5 fps, this advances one second
             cap.set(1, count)
@@ -46,8 +46,8 @@ if generate_button:
     frames()
 # function for finding RGB
 def test():
-    path="$HOME/RGB_Analysis/Data"
-    path_of_images = os.path.expandvars(path)
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    path_of_images = os.path.join(my_path, "../Data")
     list_of_images = os.listdir(path_of_images)
     result = []
     for image in natsorted(list_of_images):
@@ -60,8 +60,8 @@ def test():
     return result
 l = [test() for i in range(1)]
 def save():
-    path ="$HOME/RGB_Analysis/Output"
-    save_path = os.path.expandvars(path)#path for saving outputed RGB values
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    save_path = os.path.join(my_path, "../Output")#path for saving outputed RGB values
 
     name_of_file = "RGB" #Name of file
 
@@ -92,9 +92,9 @@ def graph_R():
     fig1.update_traces(marker_color='rgb(255,0,0)', marker_line_color='rgb(8,48,107)',
                   marker_line_width=1.5, opacity=1)
     fig1.show()
-    path="$HOME/RGB_Analysis/Output/fig1.png"
-    path_of_images = os.path.expandvars(path)
-    fig1.write_image(path_of_images) #saves graph to "Output" folder
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    save_path = os.path.join(my_path, "../Output/fig1.png")
+    fig1.write_image(save_path) #saves graph to "Output" folder
 
 
 # isolates the second column of the list
@@ -109,9 +109,9 @@ def graph_G():
     fig2.update_traces(marker_color='rgb(0, 255, 0)', marker_line_color='rgb(8,48,107)',
                   marker_line_width=1.5, opacity=1)
     fig2.show()
-    path="$HOME/RGB_Analysis/Output/fig2.png"
-    path_of_images = os.path.expandvars(path)
-    fig2.write_image(path_of_images) #saves graph to "Output" folder
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    save_path = os.path.join(my_path, "../Output/fig2.png")
+    fig2.write_image(save_path) #saves graph to "Output" folder
 
 # isolates the third column of the list
 def new_B():
@@ -126,9 +126,9 @@ def graph_B():
     fig3.update_traces(marker_color='rgb(0, 0, 255)', marker_line_color='rgb(8,48,107)',
                   marker_line_width=1.5, opacity=1)
     fig3.show()
-    path="$HOME/RGB_Analysis/Output/fig3.png"
-    path_of_images = os.path.expandvars(path)
-    fig3.write_image(path_of_images) #saves graph to "Output" folder
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    save_path = os.path.join(my_path, "../Output/fig3.png")
+    fig3.write_image(save_path) #saves graph to "Output" folder
 
 
 
