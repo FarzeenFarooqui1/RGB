@@ -32,7 +32,7 @@ def frames():
         ret, frame = cap.read()
     
         if ret:
-            path = "$HOME/RGB_Analysis/Data"
+            path = "Data"
             save_path = os.path.expandvars(path)
             name_of_file = 'frame{:d}.jpg'.format(count)
             completeName = os.path.join(save_path, name_of_file)
