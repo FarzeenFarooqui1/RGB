@@ -16,16 +16,39 @@ import os.path
 
 st.title("Generate RGB values from video")
 
-col1,col2,col3 = st.beta_columns(3)
-generate_button = col1.button('Generate frames')
-test_data = col2.button('Get RGB values of frames')
-create_graphs = col3.button('Generate graphs')
+
+sidebar_selection = st.sidebar.radio(
+    'Navigation:',
+    ['Get RGB Values', 'Generate Graphs', 'Delete Frames'],
+)
+
+
+
+my_path = os.path.abspath(os.path.dirname(__file__))
+path1 = os.path.join(my_path, "../Data/9convert.com - Color Changing Screen 1 Minute  Mood Led Lights Fast.mp4")
+
+path2 = os.path.join(my_path,"../Data/Forest - 49981.mp4")
+
+path3 = os.path.join(my_path,"../Data/Lake - 64587.mp4")
+
+path4 = os.path.join(my_path,"../Data/Pexels Videos 1918465.mp4")
+
+path5 = os.path.join(my_path,"../Data/Zoom to Fading Supernova in NGC 2525.mp4")
+
+option = st.selectbox(
+    'Which video?',
+    (path1, path2, path3,path4,path5))
+
+st.write('You selected:', option)
+
+st.sidebar.write("Video preview:")
+st.sidebar.video(option)
+
+cap = cv2.VideoCapture(option)
 
 
 def frames():
-    my_path = os.path.abspath(os.path.dirname(__file__))
-    path = os.path.join(my_path, "../Data/9convert.com - Color Changing Screen 1 Minute  Mood Led Lights Fast.mp4")
-    cap = cv2.VideoCapture(path)
+
     count = 0
 
     while cap.isOpened():
@@ -33,17 +56,16 @@ def frames():
     
         if ret:
             my_path = os.path.abspath(os.path.dirname(__file__))
-            path = os.path.join(my_path, "../Data")
+            option = os.path.join(my_path, "../Data")
             name_of_file = 'frame{:d}.jpg'.format(count)
-            completeName = os.path.join(path, name_of_file)
+            completeName = os.path.join(option, name_of_file)
             cv2.imwrite(completeName, frame)
             count += 5 # i.e. at 5 fps, this advances one second
             cap.set(1, count)
         else:
             cap.release()
             break
-if generate_button:
-    frames()
+
 # function for finding RGB
 def test():
     my_path = os.path.abspath(os.path.dirname(__file__))
@@ -73,11 +95,13 @@ def save():
     file.write("a_dictionary = " + str_file + "\n") #writes file
     file.close()
 
-if test_data:
-    st.dataframe(test())
-    save()
 
-
+if sidebar_selection == 'Get RGB Values':
+    test_data = st.button('Generate frames and get RGB values of frames')
+    if test_data:
+        frames()
+        st.dataframe(test())
+        save()
 
 def new_R():
     new_l1=np.delete(l, [1,2], axis=2)
@@ -91,7 +115,7 @@ def graph_R():
     fig1.update_yaxes(title_text='Value R')
     fig1.update_traces(marker_color='rgb(255,0,0)', marker_line_color='rgb(8,48,107)',
                   marker_line_width=1.5, opacity=1)
-    fig1.show()
+    st.plotly_chart(fig1)
     my_path = os.path.abspath(os.path.dirname(__file__))
     save_path = os.path.join(my_path, "../Output/fig1.png")
     fig1.write_image(save_path) #saves graph to "Output" folder
@@ -108,7 +132,7 @@ def graph_G():
     fig2.update_yaxes(title_text='Value R')
     fig2.update_traces(marker_color='rgb(0, 255, 0)', marker_line_color='rgb(8,48,107)',
                   marker_line_width=1.5, opacity=1)
-    fig2.show()
+    st.plotly_chart(fig2)
     my_path = os.path.abspath(os.path.dirname(__file__))
     save_path = os.path.join(my_path, "../Output/fig2.png")
     fig2.write_image(save_path) #saves graph to "Output" folder
@@ -125,32 +149,54 @@ def graph_B():
     fig3.update_yaxes(title_text='Value R')
     fig3.update_traces(marker_color='rgb(0, 0, 255)', marker_line_color='rgb(8,48,107)',
                   marker_line_width=1.5, opacity=1)
-    fig3.show()
+    st.plotly_chart(fig3)
     my_path = os.path.abspath(os.path.dirname(__file__))
     save_path = os.path.join(my_path, "../Output/fig3.png")
     fig3.write_image(save_path) #saves graph to "Output" folder
 
+if sidebar_selection == 'Generate Graphs':
+    create_graphs = st.button('Generate graphs')
+
+    option = st.selectbox(
+        'Which graph?',
+        ('Red','Green','Blue'))
 
 
-if create_graphs:
-    new_R()
+    if option == 'Red':
+        new_R()
 
-    RED=new_R().flatten()
+        RED=new_R().flatten()
 
-    graph_R()
+        graph_R()
+    if option == 'Green':
 
-    new_G()
+        new_G()
 
-    GREEN=new_G().flatten()
+        GREEN=new_G().flatten()
 
-    graph_G()
+        graph_G()
+    if option == 'Blue':
+
+        new_B()
+
+        BLUE=new_B().flatten()
+
+        graph_B()
 
 
-    new_B()
+if sidebar_selection == 'Delete Frames':
 
-    BLUE=new_B().flatten()
+    st.header("Delete Frames stored in Data folder")
+    delete_frames = st.button('Delete frames')
 
-    graph_B()
+    if delete_frames:
+        my_path = os.path.abspath(os.path.dirname(__file__))
+        dir_name = os.path.join(my_path, "../Data")
+        test = os.listdir(dir_name)
+
+        for item in test:
+            if item.endswith(".jpg"):
+                os.remove(os.path.join(dir_name, item))
 
 
 
