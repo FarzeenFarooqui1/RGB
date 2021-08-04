@@ -8,6 +8,7 @@ from natsort import natsorted
 import numpy as np
 import plotly.express as px
 import os.path
+import time
 
 
 
@@ -16,11 +17,14 @@ import os.path
 
 st.title("Generate RGB values from video")
 
+def reset():
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    dir_name = os.path.join(my_path, "../Data")
+    test = os.listdir(dir_name)
 
-sidebar_selection = st.sidebar.radio(
-    'Navigation:',
-    ['Get RGB Values', 'Generate Graphs', 'Delete Frames'],
-)
+    for item in test:
+        if item.endswith(".jpg"):
+            os.remove(os.path.join(dir_name, item))
 
 
 
@@ -35,16 +39,31 @@ path4 = os.path.join(my_path,"../Data/Pexels Videos 1918465.mp4")
 
 path5 = os.path.join(my_path,"../Data/Zoom to Fading Supernova in NGC 2525.mp4")
 
-option = st.selectbox(
-    'Which video?',
-    (path1, path2, path3,path4,path5))
+option = st.sidebar.selectbox(
+    'Which video?' ,
+    ('Color Video', 'Forest Video', 'Lake Video','Water Video', 'Supernova Video'))
 
-st.write('You selected:', option)
 
-st.sidebar.write("Video preview:")
-st.sidebar.video(option)
+if option == 'Color Video':
+    vid = path1
 
-cap = cv2.VideoCapture(option)
+elif option == 'Forest Video':
+    vid = path2
+
+elif option == 'Lake Video':
+
+    vid = path3
+elif option == 'Water Video':
+    vid = path4
+
+elif option == 'Supernova Video':
+    vid = path5
+
+st.video(vid)
+
+
+cap = cv2.VideoCapture(vid)
+
 
 
 def frames():
@@ -56,9 +75,9 @@ def frames():
     
         if ret:
             my_path = os.path.abspath(os.path.dirname(__file__))
-            option = os.path.join(my_path, "../Data")
+            vid = os.path.join(my_path, "../Data")
             name_of_file = 'frame{:d}.jpg'.format(count)
-            completeName = os.path.join(option, name_of_file)
+            completeName = os.path.join(vid, name_of_file)
             cv2.imwrite(completeName, frame)
             count += 5 # i.e. at 5 fps, this advances one second
             cap.set(1, count)
@@ -95,13 +114,18 @@ def save():
     file.write("a_dictionary = " + str_file + "\n") #writes file
     file.close()
 
+test_data = st.button('Generate frames and extract RGB values of frames')
 
-if sidebar_selection == 'Get RGB Values':
-    test_data = st.button('Generate frames and get RGB values of frames')
-    if test_data:
-        frames()
-        st.dataframe(test())
-        save()
+if test_data:
+    reset()
+    time.sleep(2.4)
+    frames()
+
+analysis = st.sidebar.selectbox('Select Analysis Type',('Generate Table','Generate Graph'))
+
+if analysis == 'Generate Table':
+    st.dataframe(test())
+    save()
 
 def new_R():
     new_l1=np.delete(l, [1,2], axis=2)
@@ -154,10 +178,10 @@ def graph_B():
     save_path = os.path.join(my_path, "../Output/fig3.png")
     fig3.write_image(save_path) #saves graph to "Output" folder
 
-if sidebar_selection == 'Generate Graphs':
-    create_graphs = st.button('Generate graphs')
+if analysis == 'Generate Graph':
+    
 
-    option = st.selectbox(
+    option = st.sidebar.selectbox(
         'Which graph?',
         ('Red','Green','Blue'))
 
@@ -182,23 +206,5 @@ if sidebar_selection == 'Generate Graphs':
         BLUE=new_B().flatten()
 
         graph_B()
-
-
-if sidebar_selection == 'Delete Frames':
-
-    st.header("Delete Frames stored in Data folder")
-    delete_frames = st.button('Delete frames')
-
-    if delete_frames:
-        my_path = os.path.abspath(os.path.dirname(__file__))
-        dir_name = os.path.join(my_path, "../Data")
-        test = os.listdir(dir_name)
-
-        for item in test:
-            if item.endswith(".jpg"):
-                os.remove(os.path.join(dir_name, item))
-
-
-
 
 
