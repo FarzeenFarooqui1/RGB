@@ -10,14 +10,11 @@ import plotly.express as px
 import os.path
 import time
 import math
-import SessionState
-from streamlit import caching
-from streamlit import config
+
 
 #function for making frames
 
-class AxisError(Exception):
-    pass
+
 
 st.title("Generate RGB values from video")
 
@@ -102,7 +99,7 @@ def test():
             avg_color = numpy.average(avg_color_per_row, axis=0)
             avg_rgb = numpy.round(avg_color[::-1]) 
             result.append(avg_rgb)
-    return result
+    return result 
     
 
 l = [test() for i in range(1)]
@@ -180,7 +177,8 @@ def graph_B():
 analysis = st.sidebar.selectbox('Select Analysis Type',('Generate Graph','Generate Table'))
 
 if analysis == 'Generate Table':
-    st.dataframe(test())
+    df = pd.DataFrame(test(), columns=('R','G','B'))
+    st.dataframe(df)
     save()
     done = st.button('Finish')
 
