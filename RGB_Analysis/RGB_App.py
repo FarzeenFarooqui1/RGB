@@ -9,11 +9,15 @@ import numpy as np
 import plotly.express as px
 import os.path
 import time
-
-
+import math
+import SessionState
+from streamlit import caching
+from streamlit import config
 
 #function for making frames
 
+class AxisError(Exception):
+    pass
 
 st.title("Generate RGB values from video")
 
@@ -21,11 +25,9 @@ def reset():
     my_path = os.path.abspath(os.path.dirname(__file__))
     dir_name = os.path.join(my_path, "../Data")
     test = os.listdir(dir_name)
-
     for item in test:
         if item.endswith(".jpg"):
-            os.remove(os.path.join(dir_name, item))
-
+            (os.remove(os.path.join(dir_name, item)))
 
 
 my_path = os.path.abspath(os.path.dirname(__file__))
@@ -41,49 +43,51 @@ path5 = os.path.join(my_path,"../Data/Zoom to Fading Supernova in NGC 2525.mp4")
 
 option = st.sidebar.selectbox(
     'Which video?' ,
-    ('Color Video', 'Forest Video', 'Lake Video','Water Video', 'Supernova Video'))
+    ('Select Video','Color Video', 'Forest Video', 'Lake Video','Water Video', 'Supernova Video'))
 
 
 if option == 'Color Video':
+    
     vid = path1
 
 elif option == 'Forest Video':
+    
     vid = path2
 
 elif option == 'Lake Video':
-
+    
     vid = path3
 elif option == 'Water Video':
+    
     vid = path4
 
 elif option == 'Supernova Video':
+    
     vid = path5
+else:
+    
+    reset()
+    vid = None
 
 st.video(vid)
 
 
-cap = cv2.VideoCapture(vid)
-
-
 
 def frames():
-
-    count = 0
-
-    while cap.isOpened():
+    my_path = os.path.abspath(os.path.dirname(__file__))       
+    imagesFolder = os.path.join(my_path, "../Data")
+    cap = cv2.VideoCapture(vid)
+    frameRate = cap.get(5) #frame rate
+    while(cap.isOpened()):
+        frameId = cap.get(1) #current frame number
         ret, frame = cap.read()
-    
-        if ret:
-            my_path = os.path.abspath(os.path.dirname(__file__))
-            vid = os.path.join(my_path, "../Data")
-            name_of_file = 'frame{:d}.jpg'.format(count)
-            completeName = os.path.join(vid, name_of_file)
-            cv2.imwrite(completeName, frame)
-            count += 5 # i.e. at 5 fps, this advances one second
-            cap.set(1, count)
-        else:
-            cap.release()
+        if (ret != True):
             break
+        if (frameId % math.floor(frameRate) == 0):
+            filename = imagesFolder + "/image_" +  str(int(frameId)) + ".jpg"
+            cv2.imwrite(filename, frame)
+    cap.release()
+    
 
 # function for finding RGB
 def test():
@@ -99,8 +103,11 @@ def test():
             avg_rgb = numpy.round(avg_color[::-1]) 
             result.append(avg_rgb)
     return result
+    
+
 l = [test() for i in range(1)]
 def save():
+
     my_path = os.path.abspath(os.path.dirname(__file__))
     save_path = os.path.join(my_path, "../Output")#path for saving outputed RGB values
 
@@ -117,15 +124,8 @@ def save():
 test_data = st.button('Generate frames and extract RGB values of frames')
 
 if test_data:
-    reset()
-    time.sleep(2.4)
+
     frames()
-
-analysis = st.sidebar.selectbox('Select Analysis Type',('Generate Table','Generate Graph'))
-
-if analysis == 'Generate Table':
-    st.dataframe(test())
-    save()
 
 def new_R():
     new_l1=np.delete(l, [1,2], axis=2)
@@ -133,7 +133,6 @@ def new_R():
 
 #graphs the Red values
 def graph_R():
-    df = px.data.tips()
     fig1 = px.bar(y=RED,title="Red Color Values")
     fig1.update_xaxes(title_text='Time(s)')
     fig1.update_yaxes(title_text='Value R')
@@ -153,7 +152,7 @@ def new_G():
 def graph_G():
     fig2 = px.bar(y=(GREEN),title="Green Color Values")
     fig2.update_xaxes(title_text='Time(s)')
-    fig2.update_yaxes(title_text='Value R')
+    fig2.update_yaxes(title_text='Value G')
     fig2.update_traces(marker_color='rgb(0, 255, 0)', marker_line_color='rgb(8,48,107)',
                   marker_line_width=1.5, opacity=1)
     st.plotly_chart(fig2)
@@ -170,7 +169,7 @@ def new_B():
 def graph_B():
     fig3 = px.bar(y=(BLUE),title="Blue Color Values")
     fig3.update_xaxes(title_text='Time(s)')
-    fig3.update_yaxes(title_text='Value R')
+    fig3.update_yaxes(title_text='Value B')
     fig3.update_traces(marker_color='rgb(0, 0, 255)', marker_line_color='rgb(8,48,107)',
                   marker_line_width=1.5, opacity=1)
     st.plotly_chart(fig3)
@@ -178,33 +177,68 @@ def graph_B():
     save_path = os.path.join(my_path, "../Output/fig3.png")
     fig3.write_image(save_path) #saves graph to "Output" folder
 
+analysis = st.sidebar.selectbox('Select Analysis Type',('Generate Graph','Generate Table'))
+
+if analysis == 'Generate Table':
+    st.dataframe(test())
+    save()
+    done = st.button('Finish')
+
+    if done:
+
+        reset()
+
+
+
 if analysis == 'Generate Graph':
     
+    choice = st.sidebar.selectbox('Select Graph',
+        
+       ('Red','Green','Blue'))
 
-    option = st.sidebar.selectbox(
-        'Which graph?',
-        ('Red','Green','Blue'))
+    try:
+        if choice == 'Red':
+            new_R()
+
+            RED=new_R().flatten()
+
+            graph_R()
+            done = st.button('Finish')
+
+            if done:
+
+                reset()
 
 
-    if option == 'Red':
-        new_R()
+        elif choice == 'Green':
 
-        RED=new_R().flatten()
+            new_G()
 
-        graph_R()
-    if option == 'Green':
+            GREEN=new_G().flatten()
 
-        new_G()
+            graph_G()
+            done = st.button('Finish')
 
-        GREEN=new_G().flatten()
+            if done:
 
-        graph_G()
-    if option == 'Blue':
+                reset()
+        elif choice == 'Blue':
 
-        new_B()
+            new_B()
 
-        BLUE=new_B().flatten()
+            BLUE=new_B().flatten()
 
-        graph_B()
+            graph_B()
+            done = st.button('Finish')
+
+            if done:
+
+                reset()
+
+
+    except numpy.AxisError:
+            st.write("First Generate frames!")
+   
+
 
 
