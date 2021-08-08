@@ -201,7 +201,7 @@ if analysis == 'Generate Graph':
             RED=new_R().flatten()
 
             graph_R()
-            done = st.button('Finish')
+            done = st.button('Delete frames')
 
             if done:
 
@@ -215,7 +215,7 @@ if analysis == 'Generate Graph':
             GREEN=new_G().flatten()
 
             graph_G()
-            done = st.button('Finish')
+            done = st.button('Delete frames')
 
             if done:
 
@@ -227,7 +227,7 @@ if analysis == 'Generate Graph':
             BLUE=new_B().flatten()
 
             graph_B()
-            done = st.button('Finish')
+            done = st.button('Delete frames')
 
             if done:
 
