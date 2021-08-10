@@ -7,7 +7,6 @@ import os
 from natsort import natsorted
 import numpy as np
 import plotly.express as px
-import os.path
 import time
 import math
 
