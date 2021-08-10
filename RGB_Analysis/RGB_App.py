@@ -198,13 +198,14 @@ if analysis == 'Generate Graph':
             new_R()
 
             RED=new_R().flatten()
+            try:
+                graph_R()
+            except PermissionError:
+                done = st.button('Delete frames')
 
-            graph_R()
-            done = st.button('Delete frames')
+                if done:
 
-            if done:
-
-                reset()
+                    reset()
 
 
         elif choice == 'Green':
@@ -212,25 +213,27 @@ if analysis == 'Generate Graph':
             new_G()
 
             GREEN=new_G().flatten()
+            try:
+                graph_G()
+            except PermissionError:
+                done = st.button('Delete frames')
 
-            graph_G()
-            done = st.button('Delete frames')
+                if done:
 
-            if done:
-
-                reset()
+                    reset()
         elif choice == 'Blue':
 
             new_B()
 
             BLUE=new_B().flatten()
+            try:
+                graph_B()
 
-            graph_B()
-            done = st.button('Delete frames')
+                done = st.button('Delete frames')
+            except PermissionError:
+                if done:
 
-            if done:
-
-                reset()
+                    reset()
 
 
     except numpy.AxisError:
