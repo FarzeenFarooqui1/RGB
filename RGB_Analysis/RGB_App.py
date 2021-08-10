@@ -176,14 +176,16 @@ def graph_B():
 analysis = st.sidebar.selectbox('Select Analysis Type',('Generate Graph','Generate Table'))
 
 if analysis == 'Generate Table':
-    df = pd.DataFrame(test(), columns=('R','G','B'))
-    st.dataframe(df)
-    save()
-    done = st.button('Delete frames')
+    try:
+        df = pd.DataFrame(test(), columns=('R','G','B'))
+        st.dataframe(df)
+        save()
+    except PermissionError:
+        done = st.button('Delete frames')
 
-    if done:
+        if done:
 
-        reset()
+            reset()
 
 
 
