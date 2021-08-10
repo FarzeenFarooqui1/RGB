@@ -179,7 +179,7 @@ if analysis == 'Generate Table':
     df = pd.DataFrame(test(), columns=('R','G','B'))
     st.dataframe(df)
     save()
-    done = st.button('Finish')
+    done = st.button('Delete frames')
 
     if done:
 
@@ -229,8 +229,8 @@ if analysis == 'Generate Graph':
             try:
                 graph_B()
 
-                done = st.button('Delete frames')
             except PermissionError:
+                done = st.button('Delete frames')
                 if done:
 
                     reset()
