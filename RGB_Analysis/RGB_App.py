@@ -9,6 +9,10 @@ import numpy as np
 import plotly.express as px
 import time
 import math
+from PIL import Image
+import av
+from aiortc.contrib.media import MediaRecorder
+from streamlit_webrtc import VideoProcessorBase, WebRtcMode, webrtc_streamer
 
 
 #function for making frames
@@ -16,6 +20,34 @@ import math
 
 
 st.title("Generate RGB values from video")
+
+st.write("Record your own video or choose a pre-uploaded video from the sidebar")
+
+def record():
+    class OpenCVEdgeProcessor(VideoProcessorBase):
+        def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
+            img = frame.to_ndarray(format="bgr24")
+
+            return av.VideoFrame.from_ndarray(img, format="bgr24")
+
+    def out_recorder_factory() -> MediaRecorder:
+        my_path = os.path.abspath(os.path.dirname(__file__))  
+        return MediaRecorder(os.path.join(my_path, "../Data/"+"output.mp4"),format='mp4')
+
+    webrtc_streamer(
+        key="loopback",
+        mode=WebRtcMode.SENDRECV,
+        rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
+        media_stream_constraints={
+            "video": True,
+            "audio": False,
+        },
+        video_processor_factory=OpenCVEdgeProcessor,
+        out_recorder_factory=out_recorder_factory,
+    )
+if __name__ == "__main__":
+    record()
+
 
 def reset():
     my_path = os.path.abspath(os.path.dirname(__file__))
@@ -37,36 +69,44 @@ path4 = os.path.join(my_path,"../Data/Pexels Videos 1918465.mp4")
 
 path5 = os.path.join(my_path,"../Data/Zoom to Fading Supernova in NGC 2525.mp4")
 
+path6 = os.path.join(my_path,"../Data/output.mp4")
+
 option = st.sidebar.selectbox(
-    'Which video?' ,
-    ('Select Video','Color Video', 'Forest Video', 'Lake Video','Water Video', 'Supernova Video'))
+    'Select Pre Recorded Video' ,
+    ('Select Video','Color Video', 'Forest Video', 'Lake Video','Water Video', 'Supernova Video','Recorded Video'))
 
 
 if option == 'Color Video':
     
     vid = path1
+    st.video(vid)
 
 elif option == 'Forest Video':
     
     vid = path2
+    st.video(vid)
 
 elif option == 'Lake Video':
     
     vid = path3
+    st.video(vid)
 elif option == 'Water Video':
     
     vid = path4
+    st.video(vid)
 
 elif option == 'Supernova Video':
     
     vid = path5
+    st.video(vid)
+elif option == 'Recorded Video':
+
+    vid = path6
+    st.video(vid)
 else:
     
     reset()
     vid = None
-
-st.video(vid)
-
 
 
 def frames():
@@ -122,6 +162,8 @@ test_data = st.button('Generate frames and extract RGB values of frames')
 if test_data:
 
     frames()
+
+
 
 def new_R():
     new_l1=np.delete(l, [1,2], axis=2)
