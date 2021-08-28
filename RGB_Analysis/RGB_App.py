@@ -31,8 +31,8 @@ def record():
             return av.VideoFrame.from_ndarray(img, format="bgr24")
 
     def out_recorder_factory() -> MediaRecorder:
-        my_path = os.path.abspath(os.path.dirname(__file__))  
-        return MediaRecorder(os.path.join(my_path, "/Data/"+"output.mp4"),format='mp4')
+         
+        return MediaRecorder("output.mp4", format='mp4')
 
     webrtc_streamer(
         key="loopback",
@@ -69,7 +69,7 @@ path4 = os.path.join(my_path,"../Data/Pexels Videos 1918465.mp4")
 
 path5 = os.path.join(my_path,"../Data/Zoom to Fading Supernova in NGC 2525.mp4")
 
-path6 = os.path.join(my_path,"../Data/output.mp4")
+path6 = os.path.join(my_path,"output.mp4")
 
 option = st.sidebar.selectbox(
     'Select Pre Recorded Video' ,
