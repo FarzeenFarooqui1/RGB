@@ -1,7 +1,7 @@
 plotly==5.0.0
 aiortc==1.2.1
 natsort==7.1.1
-opencv_python==4.5.2.52
+opencv_python_headless==4.5.2.52
 pandas==1.2.4
 numpy==1.20.1
 av==8.0.3
