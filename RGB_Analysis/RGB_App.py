@@ -69,7 +69,7 @@ path4 = os.path.join(my_path,"../Data/Pexels Videos 1918465.mp4")
 
 path5 = os.path.join(my_path,"../Data/Zoom to Fading Supernova in NGC 2525.mp4")
 
-path6 = os.path.join(my_path,"output.mp4")
+path6 = os.path.join("output.mp4")
 
 option = st.sidebar.selectbox(
     'Select Pre Recorded Video' ,
