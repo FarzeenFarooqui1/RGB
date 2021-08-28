@@ -32,7 +32,7 @@ def record():
 
     def out_recorder_factory() -> MediaRecorder:
         my_path = os.path.abspath(os.path.dirname(__file__))  
-        return MediaRecorder(os.path.join(my_path, "../Data/tmp/"+"output.mp4"),format='mp4')
+        return MediaRecorder(os.path.join(my_path, "../Data/"+"output.mp4"),format='mp4')
 
     webrtc_streamer(
         key="loopback",
