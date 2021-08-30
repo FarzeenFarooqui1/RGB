@@ -33,6 +33,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+The purpose of this project is to record a video from the user's webcam and then output the RGB spectrum of each frame and display them in a graph. 
 
 
 ### Built With
