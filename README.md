@@ -33,8 +33,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-The purpose of this project is to record a video from the user's webcam and then output the RGB spectrum of each frame and display them in a graph. 
-
+The purpose of this project was to create an app that can record video from a smartphone’s camera and output the RGB values of each frame at a rate of one frame per second. These RGB values can be displayed either in a table or as bar graphs. This app can be used to test the water quality of a sample by finding the RGB values of any particulates in the water.
 
 ### Built With
 
@@ -48,15 +47,10 @@ The purpose of this project is to record a video from the user's webcam and then
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-1. There is a start button that can be used to record video from the users webcam or there are also multiple pre uploaded videos saved into the "Data" folder. The user can either choose to analyze a pre uploaded video or analyze their own recorded video. The "Frames" function is then run which divides the video into frames at a rate of 1 frames per second.
-2. The "Test" function will then find all the created frames in the "Data" folder but only look at the ones that are image files. It will then print out the RGB values of every frame in an organized list of Numpy arrays.
-3. The list is then converted into a variable that can be used throughout the program. 
-4. The functions "new_R", "new_G", "new_B" will then take the indiviual columns of the numpy array and store them as variables.
-5. The 2D arrays are then all flattened into more workable 1D arrays.
-6. The "Graph_R",Graph_G", Graph_B" functions will then return a bar graph of the RGB values of every image. 
-7. The delete frames button can be used to delete existing frames so that analysis can be done on a new video
-
-
+1. There is a start button that can be used to record video from the users webcam or there are also multiple pre uploaded videos saved into the App. The user can either choose to analyze a pre uploaded video or analyze their own recorded video. The app divides the video into frames at a rate of 1 frames per second.
+2. When the user clicks the button labeled "Generate Frames and Extract RGB Values of Frames" app will then find all the created frames in the "Data" folder but only look at the ones that are image files. It will then print out the RGB values of every frame either as a table or graphs.
+3. The user can choose from the sidebar which whether they want to view the RGB values as either a table or a graph. If graph is selected then the user can select from the sidebar if they want to see the red, green or blue graph.
+4. The "Delete Frames" button at the bottom of the app can reset the app by deleting the previous video's frames.
 
 
 <!-- CONTACT -->
@@ -65,6 +59,9 @@ The purpose of this project is to record a video from the user's webcam and then
 Farzeen Farooqui - ffarooq5@uwo.ca
 
 Project Link: [https://github.com/FarzeenFarooqui1/RGB_Analysis.git](https://github.com/FarzeenFarooqui1/RGB_Analysis.git)
+
+Streamlit App Link: [https://share.streamlit.io/farzeenfarooqui1/rgb_analysis/main/RGB_Analysis/RGB_App.py](https://share.streamlit.io/farzeenfarooqui1/rgb_analysis/main/RGB_Analysis/RGB_App.py)
+
 
 
 
