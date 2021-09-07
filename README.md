@@ -46,11 +46,14 @@ The purpose of this project was to create an app that can record video from a sm
 
 <!-- USAGE EXAMPLES -->
 ## Usage
+The interface is shown below:
+![image info](/Pictures/Screen Shot 2021-09-05 at 9.39.21 PM.png)
 
 1. There is a start button that can be used to record video from the users webcam or there are also multiple pre uploaded videos saved into the App. The user can either choose to analyze a pre uploaded video or analyze their own recorded video. The app divides the video into frames at a rate of 1 frames per second.
 2. When the user clicks the button labeled "Generate Frames and Extract RGB Values of Frames" app will then find all the created frames in the "Data" folder but only look at the ones that are image files. It will then print out the RGB values of every frame either as a table or graphs.
 3. The user can choose from the sidebar which whether they want to view the RGB values as either a table or a graph. If graph is selected then the user can select from the sidebar if they want to see the red, green or blue graph.
 4. The "Delete Frames" button at the bottom of the app can reset the app by deleting the previous video's frames.
+
 
 
 <!-- CONTACT -->
