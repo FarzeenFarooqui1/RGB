@@ -53,7 +53,7 @@ The interface is shown below:
 
 1. There is a start button that can be used to record video from the users webcam or there are also multiple pre uploaded videos saved into the App. The user can either choose to analyze a pre uploaded video or analyze their own recorded video. The app divides the video into frames at a rate of 1 frames per second.
 2. When the user clicks the button labeled "Generate Frames and Extract RGB Values of Frames" app will then find all the created frames in the "Data" folder but only look at the ones that are image files. It will then print out the RGB values of every frame either as a table or graphs.
-3. The user can choose from the sidebar which whether they want to view the RGB values as either a table or a graph. As shown below:
+3. The user can choose from the sidebar whether they want to view the RGB values as either a table or a graph. As shown below:
 <img src="Pictures/Screen Shot 2021-09-05 at 9.41.24 PM.png"
      alt="Markdown Monster icon"
      style="float: left; margin-right: 10px;" />
